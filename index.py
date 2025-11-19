@@ -55,7 +55,7 @@ def render_html_file():
 
 def main():
     st.set_page_config(
-        page_title="LumiCore | Shopper Marketing & Retail Analytics",
+        page_title="LumiCore | Shopper Marketing Agency",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
@@ -75,4 +75,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
