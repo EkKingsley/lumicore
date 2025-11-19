@@ -45,11 +45,12 @@ def render_html_file():
     # Replace image paths with base64 data URLs
     html_content = replace_images_with_base64(html_content)
 
-    # Display with proper height and scrolling
+    # Display with proper height and scrolling - FULL WIDTH
     st.components.v1.html(
         html_content,
         height=4000,
-        scrolling=True
+        scrolling=True,
+        width=None  # This makes it full width
     )
 
 
@@ -60,20 +61,71 @@ def main():
         initial_sidebar_state="collapsed"
     )
 
-    # Hide Streamlit default elements
-    hide_streamlit_style = """
+    # COMPREHENSIVE CSS to remove all padding and margins
+    full_width_css = """
     <style>
+    /* Hide Streamlit elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    
+    /* Full width for the entire app */
+    .stApp {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remove main container padding */
+    .main .block-container {
+        padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        max-width: 100% !important;
+    }
+    
+    /* Remove any other container padding */
+    .st-emotion-cache-1y4p8pa {
+        padding: 0rem !important;
+    }
+    
+    /* Full width for vertical block */
+    div[data-testid="stVerticalBlock"] {
+        gap: 0rem !important;
+    }
+    
+    /* Full width for horizontal block */
+    div[data-testid="stHorizontalBlock"] {
+        gap: 0rem !important;
+    }
+    
+    /* Remove any gap around components */
+    .st-emotion-cache-1r4qj8y {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* Make sure the iframe container is full width */
+    iframe {
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Remove any potential scrollbars from Streamlit container */
+    .st-emotion-cache-1wrcr25 {
+        padding: 0 !important;
+    }
     </style>
     """
-    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    
+    st.markdown(full_width_css, unsafe_allow_html=True)
 
-    # Render your HTML website
-    render_html_file()
+    # Create a container that takes full width
+    with st.container():
+        render_html_file()
 
 
 if __name__ == "__main__":
-
     main()
