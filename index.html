@@ -1,0 +1,1991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    LumiCore | Shopper Marketing & Retail Analytics
+    - Single-page static site
+    - Edit text & images freely
+    - Safe & robust for static hosting (Netlify, GitHub Pages, etc.)
+  -->
+  <meta charset="UTF-8" />
+  <title>LumiCore | Shopper Marketing & Retail Analytics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="LumiCore is a Lebanon-based shopper marketing and data insights agency helping FMCG and frozen foods brands turn retail data into shelf-level growth."
+  />
+
+  <style>
+    /* =============================
+       ROOT VARIABLES & GLOBAL RESET
+       ============================= */
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --bg-softer: #111729;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.1);
+      --accent-strong: #6366f1;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: #1f2933;
+      --card-radius: 18px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.7);
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* =============================
+       NAVBAR STYLES
+       ============================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: linear-gradient(
+        to bottom,
+        rgba(2, 6, 23, 0.9),
+        rgba(2, 6, 23, 0.7),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .logo-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 20% 20%, #a5b4fc, #4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e5e7eb;
+      box-shadow: 0 0 18px rgba(99, 102, 241, 0.7);
+      animation: floatLogo 6s ease-in-out infinite;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .logo-text-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      position: relative;
+      padding-bottom: 0.15rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -0.25rem;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #22c55e, #4f46e5);
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-cta span {
+      font-size: 1.1rem;
+      margin-top: -1px;
+    }
+
+    /* Mobile nav toggle (hamburger) */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .nav-toggle span {
+      width: 20px;
+      height: 2px;
+      background: #e5e7eb;
+      border-radius: 999px;
+    }
+
+    /* Mobile nav links container */
+    .nav-links-mobile {
+      display: none;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-bottom: 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    /* =============================
+       HERO SECTION STYLES
+       ============================= */
+    .hero {
+      padding: 3.5rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.1fr);
+      gap: 2.4rem;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.18rem 0.5rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.8);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .badge span {
+      width: 5px;
+      height: 5px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero-title {
+      font-size: clamp(2.3rem, 4vw, 3rem);
+      letter-spacing: 0.01em;
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, #a5b4fc, #4f46e5, #22c55e);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      max-width: 34rem;
+      font-size: 0.98rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .btn-primary {
+      padding: 0.8rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.75);
+      transform-origin: center;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-secondary {
+      padding: 0.8rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: transparent;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(148, 163, 184, 0.9);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    /* Hero media container: image + analytics card */
+    .hero-media {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero-image-wrapper {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      transform: scale(1.03);
+      transition: transform 0.8s ease;
+    }
+
+    .hero-image-wrapper:hover .hero-image {
+      transform: scale(1.06);
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom right,
+        rgba(15, 23, 42, 0.35),
+        rgba(15, 23, 42, 0.8)
+      );
+      pointer-events: none;
+    }
+
+    .hero-image-label {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.75);
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    /* Hero analytics "data" card */
+    .hero-card {
+      background: radial-gradient(circle at top left, #1f2937, #020617);
+      border-radius: 24px;
+      padding: 1.5rem 1.3rem;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+      animation: floatCard 7s ease-in-out infinite;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -140px;
+      background: radial-gradient(
+        circle at top,
+        rgba(79, 70, 229, 0.35),
+        transparent 55%
+      );
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .hero-card-pill {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: var(--text-muted);
+    }
+
+    .hero-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0.9rem;
+    }
+
+    .metric-card {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 16px;
+      padding: 0.8rem;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .metric-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .metric-tag {
+      margin-top: 0.25rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.7rem;
+      color: #22c55e;
+    }
+
+    .sparkline {
+      margin-top: 0.4rem;
+      height: 32px;
+      border-radius: 999px;
+      background: linear-gradient(
+        90deg,
+        rgba(148, 163, 184, 0.15),
+        rgba(79, 70, 229, 0.3)
+      );
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sparkline-fill {
+      position: absolute;
+      inset: 0;
+      width: 65%;
+      background: linear-gradient(90deg, #22c55e, #4f46e5);
+      border-radius: inherit;
+      filter: blur(0.4px);
+    }
+
+    .hero-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* =============================
+       GENERIC SECTION STYLES
+       ============================= */
+    section {
+      padding: 2.5rem 0 2.7rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.8rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+    }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.115em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 26rem;
+    }
+
+    /* =============================
+       SERVICES SECTION STYLES
+       ============================= */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .service-card {
+      background: var(--bg-soft);
+      border-radius: var(--card-radius);
+      padding: 1.2rem 1.1rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+    }
+
+    .service-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at top right,
+        rgba(99, 102, 241, 0.35),
+        transparent 55%
+      );
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .service-image {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .service-card:hover .service-image {
+      transform: scale(1.05);
+    }
+
+    .service-title {
+      font-size: 1rem;
+      margin-bottom: 0.35rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+    }
+
+    /* =============================
+   PROCESS SECTION STYLES
+   ============================= */
+.steps-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  background: var(--bg-soft);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(129, 140, 248, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: #a5b4fc;
+  font-weight: 600;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #e5e7eb;
+}
+
+.step-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.step-image {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+    /* =============================
+       CASE STUDIES SECTION STYLES
+       ============================= */
+    .cases-header-media {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .cases-image-wrapper {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .cases-image {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      transform: scale(1.03);
+      transition: transform 0.8s ease;
+    }
+
+    .cases-image-wrapper:hover .cases-image {
+      transform: scale(1.05);
+    }
+
+    .cases-image-label {
+      position: absolute;
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .case-card {
+      background: var(--bg-soft);
+      border-radius: var(--card-radius);
+      padding: 1.1rem 1.1rem 1.1rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      transition: transform 0.3s ease;
+    }
+
+    .case-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .case-thumbnail {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .case-card:hover .case-thumbnail {
+      transform: scale(1.02);
+    }
+
+    .case-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .case-title {
+      font-size: 0.98rem;
+      margin-bottom: 0.35rem;
+      color: #e5e7eb;
+    }
+
+    .case-meta {
+      font-size: 0.8rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-muted);
+    }
+
+    .case-list {
+      list-style: disc;
+      padding-left: 1.1rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .case-highlight {
+      font-size: 0.8rem;
+      color: #bbf7d0;
+    }
+
+    /* =============================
+       ABOUT SECTION STYLES
+       ============================= */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 1.8rem;
+      align-items: flex-start;
+    }
+
+    .about-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .about-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 0.8rem;
+      display: grid;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+    }
+
+    .about-list li::before {
+      content: "•";
+      margin-right: 0.4rem;
+      color: #a5b4fc;
+    }
+
+    .about-card {
+      background: var(--bg-soft);
+      border-radius: var(--card-radius);
+      padding: 1rem 0.9rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .about-card-title {
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: #e5e7eb;
+    }
+
+    .about-image-wrapper {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      margin-bottom: 0.9rem;
+    }
+
+    .about-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    /* =============================
+       RESOURCES SECTION STYLES
+       ============================= */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .resource-card {
+      background: var(--bg-soft);
+      border-radius: var(--card-radius);
+      padding: 0.95rem 0.9rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      transition: transform 0.3s ease;
+    }
+
+    .resource-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .resource-thumbnail {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.6rem;
+      transition: transform 0.3s ease;
+    }
+
+    .resource-card:hover .resource-thumbnail {
+      transform: scale(1.02);
+    }
+
+    .resource-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.3rem;
+    }
+
+    .resource-title {
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+      color: #e5e7eb;
+    }
+
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+      color: #a5b4fc;
+    }
+
+    /* =============================
+       CONTACT SECTION STYLES
+       ============================= */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .contact-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .contact-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .contact-badge {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      color: var(--text-muted);
+    }
+
+    .contact-image-wrapper {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      margin-bottom: 1rem;
+    }
+
+    .contact-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    form {
+      background: var(--bg-soft);
+      border-radius: var(--card-radius);
+      padding: 1rem 0.9rem 1.1rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.8);
+      font-size: 0.85rem;
+    }
+
+    .form-row {
+      margin-bottom: 0.7rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.4);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      margin-top: 0.3rem;
+      padding: 0.65rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 35px rgba(15, 23, 42, 0.9);
+    }
+
+    .submit-btn span {
+      font-size: 1rem;
+    }
+
+    /* =============================
+       FOOTER STYLES
+       ============================= */
+    footer {
+      padding: 1.6rem 0 2rem;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+      margin-top: 1.5rem;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+    }
+
+    /* =============================
+       SCROLL REVEAL ANIMATIONS
+       ============================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    /* =============================
+       RESPONSIVE BREAKPOINTS
+       ============================= */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-media {
+        order: -1; /* show image & card above text on mobile */
+      }
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .cases-header-media {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .cases-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .resources-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .process-grid,
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .service-image {
+        height: 100px;
+      }
+      .case-thumbnail {
+        height: 80px;
+      }
+      .resource-thumbnail {
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+      .nav-toggle {
+        display: flex;
+      }
+      .nav-links-mobile {
+        display: flex;
+      }
+      .services-grid,
+      .resources-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero {
+        padding-top: 2.6rem;
+      }
+      .service-image {
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <!-- =========================
+         NAVBAR
+         - Edit brand name & tagline here
+         ========================= -->
+    <header>
+      <div class="container">
+        <nav class="nav">
+          <div class="logo">
+            <div class="logo-mark">L</div>
+            <div>
+              <div class="logo-text-main">LumiCore</div>
+              <div class="logo-text-sub">Shopper Marketing Agency · Lebanon</div>
+            </div>
+          </div>
+
+          <div class="nav-links">
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#process">How we work</a>
+            <a href="#cases">Case studies</a>
+            <a href="#resources">Insights</a>
+            <a href="#contact" class="nav-cta">
+              Let’s talk <span>↗</span>
+            </a>
+          </div>
+
+          <!-- Mobile nav toggle button -->
+          <button class="nav-toggle" aria-label="Toggle navigation" id="navToggle">
+            <span></span><span></span><span></span>
+          </button>
+        </nav>
+
+        <!-- Mobile nav links (hidden on desktop) -->
+        <div class="nav-links-mobile" id="navMobile">
+          <a href="#services">Services</a>
+          <a href="#process">How we work</a>
+          <a href="#cases">Case studies</a>
+          <a href="#resources">Insights</a>
+          <a href="#contact">Let’s talk</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+    <main>
+      <!-- =========================
+           HERO SECTION
+           - Update headline, subheadline, hero image, stats & CTA text
+           ========================= -->
+      <section class="hero reveal" id="top">
+        <div class="container hero-grid">
+          <!-- Hero text / left column -->
+          <div class="reveal reveal-delay-1">
+            <div class="badge">
+              <span></span>
+              Lebanon-based shopper marketing agency for FMCG, Retailers, Wholesalers, etc...
+            </div>
+            <h1 class="hero-title">
+              We take brands to the
+              <span>next level.</span>
+            </h1>
+            <p class="hero-subtitle">
+              LumiCore helps brands, distributors and retailers use data, shopper behaviour, and promotion analytics to grow sales, optimise space, and win at the shelf—store by store, SKU by SKU.
+            </p>
+
+            <div class="hero-ctas">
+              <button class="btn-primary" id="ctaStrategy">
+                Book a strategy call
+                <span>→</span>
+              </button>
+              <button class="btn-secondary" id="ctaCases">
+                View case studies
+              </button>
+            </div>
+
+            <div class="hero-meta">
+              <div>
+                <strong>+10–20%</strong> promo uplift on key SKUs
+              </div>
+              <div>
+                <strong>Brands</strong> and categories in modern trade
+              </div>
+              <div>
+                <strong>Lebanon & Beyond</strong> FMCG & frozen foods focus
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero media / right column: image + analytics card -->
+          <div class="hero-media">
+            <!-- Hero image: replace with your own (images/hero-retail-data.jpg) -->
+            <!-- Suggestion: A vibrant photo of a modern supermarket aisle with frozen foods section, overlaid with subtle data visualizations like charts or graphs. High-res, 1200x800px, focus on colorful packaging and shoppers. -->
+            <figure class="hero-image-wrapper reveal reveal-delay-1">
+              <img
+                src="images/super market graph overlay.jpg"
+                alt="Data analytics overlayed on a modern supermarket frozen foods aisle"
+                class="hero-image"
+              />
+              <div class="hero-image-overlay"></div>
+              <figcaption class="hero-image-label">
+                Real-world data from retail insights
+              </figcaption>
+            </figure>
+
+            <!-- Analytics card (sample KPIs) -->
+            <aside class="hero-card reveal reveal-delay-2" aria-label="Sample analytics view">
+              <div class="hero-card-header">
+                <div>
+                  <div class="hero-card-title">Promo Performance Snapshot</div>
+                  <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    Category: Frozen poultry · Period: Q3 2025
+                  </div>
+                </div>
+              </div>
+
+              <div class="hero-card-grid">
+                <div class="metric-card">
+                  <div class="metric-label">Incremental Value</div>
+                  <div class="metric-value">+19.2%</div>
+                  <div class="metric-tag">
+                    <span class="dot"></span>
+                    vs baseline
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">Promo Efficiency</div>
+                  <div class="metric-value">2.7× ROI</div>
+                  <div class="metric-tag">
+                    <span class="dot"></span>
+                    trade spend → uplift
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">SPPD (Value)</div>
+                  <div class="metric-value">+13.5%</div>
+                  <div class="metric-tag">
+                    <span class="dot"></span>
+                    across 85 stores
+                  </div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-label">ND / WD</div>
+                  <div class="metric-value">79% / 92%</div>
+                  <div class="metric-tag">
+                    <span class="dot"></span>
+                    distribution health
+                  </div>
+                </div>
+              </div>
+
+              <div class="sparkline">
+                <div class="sparkline-fill"></div>
+              </div>
+
+              <div class="hero-card-footer">
+                <span>
+                  <span class="dot"></span>
+                  Top 30 frozen SKUs by VMS%
+                </span>
+                <span></span>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           SERVICES SECTION
+           - Edit/add/remove services as needed
+           ========================= -->
+      <section id="services" class="reveal">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Services</div>
+              <h2 class="section-title">What LumiCore does for Brands, Distributors and Retailers</h2>
+            </div>
+            <p class="section-subtitle">
+              We combine shopper marketing, category management, and advanced
+              analytics to answer the questions that matter: which promos,
+              which SKUs, which stores—and how to prove it in the numbers.
+            </p>
+          </div>
+
+          <div class="services-grid">
+            <article class="service-card reveal reveal-delay-1">
+              <!-- Service image placeholder: Replace src with your image in images/ -->
+              <!-- Suggestion: Close-up of data charts on a laptop screen showing retail metrics like SPPD graphs, in a modern office setting. 600x400px, vibrant blues/greens. -->
+              <img src="images/kpi dashboards.jpg" alt="Data visualization of shopper insights and retail metrics" class="service-image" />
+              <h3 class="service-title">Shopper & Retail Insights</h3>
+              <p class="service-text">
+                We mine POS, ERP, and promo data from
+                retailers and distributors to reveal how shoppers actually buy—by channel,
+                store, brand, and SKU.
+              </p>
+              <div class="service-tags">
+                <span class="pill">SPPD · ND · WD · VMS%</span>
+                <span class="pill">Store & channel clustering</span>
+                <span class="pill">Basket & trip analysis</span>
+              </div>
+            </article>
+
+            <article class="service-card reveal reveal-delay-2">
+  <!-- Service image placeholder -->
+  <!-- Suggestion: Photo of a diverse supermarket aisle with various FMCG categories (snacks, beverages, dairy), showing optimized shelving and promotions. 600x400px, vibrant and colorful tones. -->
+  <img src="images/category2.png" alt="Supermarket aisle showcasing FMCG category optimization" class="service-image" />
+  <h3 class="service-title">Category Management & Insights</h3>
+  <p class="service-text">
+    We provide deep dives into category dynamics, brand roles, and portfolio performance to help FMCG brands define winning strategies across channels and retailers.
+  </p>
+  <div class="service-tags">
+    <span class="pill">Category roles & POGs</span>
+    <span class="pill">Portfolio health</span>
+    <span class="pill">Cross-category synergies</span>
+  </div>
+</article>
+
+            <article class="service-card reveal reveal-delay-3">
+              <!-- Service image placeholder -->
+              <!-- Suggestion: Image of promotional displays in a store with discount tags on products, shoppers in background. 600x400px, energetic yellow/red accents. -->
+              <img src="images/promo cart3.png" alt="In-store promotion setup with pricing tags and shopper interaction" class="service-image" />
+              <h3 class="service-title">Promotion & Pricing Analytics</h3>
+              <p class="service-text">
+                We quantify uplift, incremental sales, and promo ROI so you
+                can stop guessing and start investing in the right mechanics
+                for your category and retailer.
+              </p>
+              <div class="service-tags">
+                <span class="pill">Baseline vs incremental</span>
+                <span class="pill">Promo efficiency & ROI</span>
+                <span class="pill">Price elasticity</span>
+              </div>
+            </article>
+
+            <article class="service-card reveal reveal-delay-1">
+              <!-- Service image placeholder -->
+              <!-- Suggestion: Shelf planogram diagram or photo of optimized gondola with product facings labeled. 600x400px, clean and structured. -->
+              <img src="images/planogram.png" alt="Optimized retail shelf space with product assortment" class="service-image" />
+              <h3 class="service-title">Space & Assortment Optimization</h3>
+              <p class="service-text">
+                We turn space into a profit lever—optimising freezers,
+                gondolas, and shelves using real performance data across SKUs
+                and pack formats.
+              </p>
+              <div class="service-tags">
+                <span class="pill">Planograms & facings</span>
+                <span class="pill">SKU rationalisation</span>
+                <span class="pill">Segment & brand strategies</span>
+              </div>
+            </article>
+
+            <article class="service-card reveal reveal-delay-2">
+              <!-- Service image placeholder -->
+              <!-- Suggestion: Screenshot-style image of a dashboard (Power BI/Tableau) showing KPI charts, on a tablet or monitor. 600x400px, data-focused. -->
+              <img src="images/kpi on laptop.jpg" alt="Interactive analytics dashboard displaying retail KPIs" class="service-image" />
+              <h3 class="service-title">Dashboards & Data Products</h3>
+              <p class="service-text">
+                We build self-service dashboards for marketing, sales,
+                and management teams to track what matters—without Excel chaos.
+              </p>
+              <div class="service-tags">
+                <span class="pill">Power BI / Tableau / Looker</span>
+                <span class="pill">KPI scorecards</span>
+                <span class="pill">Automated reporting</span>
+              </div>
+            </article>
+
+            <article class="service-card reveal reveal-delay-3">
+              <!-- Service image placeholder -->
+              <!-- Suggestion: Team meeting photo with people discussing charts around a table, diverse group in business casual. 600x400px, collaborative vibe. -->
+              <img src="images/team work.jpg" alt="Team collaboration session on marketing strategy" class="service-image" />
+              <h3 class="service-title">Advisory & Activation Support</h3>
+              <p class="service-text">
+                We sit with your brand, trade, and field teams to turn
+                insights into activation playbooks, sell-in decks, and
+                execution checklists retailers buy into.
+              </p>
+              <div class="service-tags">
+                <span class="pill">Category stories</span>
+                <span class="pill">Retailer sell-in decks</span>
+                <span class="pill">Field execution guides</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           PROCESS SECTION
+           - Update steps & example engagement
+           ========================= -->
+      <section id="process" class="reveal">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-kicker">Process</div>
+        <h2 class="section-title">How we work with your data & teams</h2>
+      </div>
+      <p class="section-subtitle">
+        Simple, transparent, and measurable—from the first data extract
+        to live dashboards and in-store execution.
+      </p>
+    </div>
+
+    <!-- Centered steps container -->
+    <div class="steps-container">
+      <div class="steps">
+        <div class="step reveal reveal-delay-1">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <div class="step-title">Discover & Align</div>
+            <p class="step-text">
+              We clarify your business questions—promo ROI, pricing,
+              space optimization, distribution—and audit data sources
+              (POS, ERP, promo calendars, brand plans).
+            </p>
+          </div>
+          <!-- Step image on the right -->
+          <img src="images/ideas.jpg" alt="Discover and align phase icon" class="step-image" />
+        </div>
+        <div class="step reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <div class="step-title">Engineer & Analyse</div>
+            <p class="step-text">
+              We clean and model data, compute KPIs (SPPD, ND, WD,
+              VMS%, uplift, incremental value/volume), and run the
+              analytics that answer your questions across categories.
+            </p>
+          </div>
+          <!-- Step image on the right -->
+          <img src="images/magnify.jpg" alt="Engineer and analyze phase icon" class="step-image" />
+        </div>
+        <div class="step reveal reveal-delay-3">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <div class="step-title">Activate & Track</div>
+            <p class="step-text">
+              We convert insights into clear recommendations—by Brand,
+              SKU, retailer and store—and set up dashboards to track
+              performance over time.
+            </p>
+          </div>
+          <!-- Step image on the right -->
+          <img src="images/trend.jpg" alt="Activate and track phase icon" class="step-image" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+      <!-- =========================
+           CASE STUDIES SECTION
+           - Add/edit case studies & imagery
+           ========================= -->
+      <section id="cases" class="reveal">
+        <div class="container">
+          <!-- Header+image combo: analytics dashboard image + intro text -->
+          <div class="cases-header-media">
+            <div>
+              <div class="section-kicker">Case studies</div>
+              <h2 class="section-title">Results LumiCore has delivered</h2>
+              <p class="section-subtitle">
+                Details adapted and anonymised—numbers are real; client names
+                are confidential.
+              </p>
+            </div>
+
+            <!-- Case study hero image: replace with your own (images/case-dashboard.jpg) -->
+            <!-- Suggestion: High-res photo of a laptop displaying a colorful retail analytics dashboard, perhaps with a coffee mug nearby for a lively touch. 800x500px. -->
+            <figure class="cases-image-wrapper reveal reveal-delay-1">
+              <img
+                src="images/retail analytics.png"
+                alt="Data analytics dashboard on a laptop showing retail KPIs"
+                class="cases-image"
+              />
+            </figure>
+          </div>
+
+          <!-- Actual case study cards -->
+          <div class="cases-grid">
+            <article class="case-card reveal reveal-delay-1">
+              <!-- Case thumbnail placeholder -->
+              <!-- Suggestion: Before/after photo of a frozen poultry promo display in-store. 400x250px, showing uplift impact. -->
+              <img src="images/promo2.png" alt="Promotion in supermarket" class="case-thumbnail" />
+              <div class="case-tag">Promo efficiency</div>
+              <h3 class="case-title">
+                +18% promo uplift for a leading brand
+              </h3>
+              <p class="case-meta">
+                Country-wide promo review across 3 modern trade chains, 2 years of POS data.
+              </p>
+              <ul class="case-list">
+                <li>
+                  Modelled baseline vs incremental sales across 70+ frozen SKUs.
+                </li>
+                <li>
+                  Identified “hero” SKUs and promo mechanics with negative ROI.
+                </li>
+                <li>
+                  Re-designed promo calendar and support by retailer & region.
+                </li>
+              </ul>
+              <p class="case-highlight">
+                Outcome: +18% average uplift on key frozen SKUs and −20% spend on
+                low-return promotions in the following quarter.
+              </p>
+            </article>
+
+            <article class="case-card reveal reveal-delay-2">
+              <!-- Case thumbnail placeholder -->
+              <!-- Suggestion: Image of a well-organized pharmacy shelf with personal care products, labels showing optimized layout. 400x250px. -->
+              <img src="images/optimized layout.png" alt="Optimized pharmacy shelf layout" class="case-thumbnail" />
+              <div class="case-tag">Category & Brand Management</div>
+              <h3 class="case-title">
+                11% category growth from data-driven shelf & gondola layouts
+              </h3>
+              <p class="case-meta">
+                Multi-store optimisation for brands and categories in retail chains and distrubutors.
+              </p>
+              <ul class="case-list">
+                <li>
+                  Calculated SPPD, ND/WD, and VMS% to rank SKUs by contribution.
+                </li>
+                <li>
+                  Recommended facings, delists, and line extensions by format.
+                </li>
+                <li>
+                  Delivered planogram guidelines and a field execution checklist.
+                </li>
+              </ul>
+              <p class="case-highlight">
+                Outcome: +11% value growth in focus categories and improved
+                on-shelf availability on top 40 SKUs.
+              </p>
+            </article>
+
+            <article class="case-card reveal reveal-delay-3">
+              <!-- Case thumbnail placeholder -->
+              <!-- Suggestion: Snacks aisle with promotional bundles and pricing signs, shoppers browsing. 400x250px, fun and colorful. -->
+              <img src="images/pricing2.png" alt="pricing strategy" class="case-thumbnail" />
+              <div class="case-tag">Pricing Stragety</div>
+              <h3 class="case-title">
+                Clear rules for when to discount—and when not to
+              </h3>
+              <p class="case-meta">
+                National biscuits and snacks brand with heavy promotional spend but unclear returns.
+              </p>
+              <ul class="case-list">
+                <li>Mapped all promo types (TPR, bundles, multi-buy, displays).</li>
+                <li>Estimated price elasticity by store cluster and brand tier.</li>
+                <li>
+                  Designed a "promo decision playbook" for the marketing & sales team.
+                </li>
+              </ul>
+              <p class="case-highlight">
+                Outcome: fewer but smarter promotions, with a 2.6× average ROI
+                on the new promo mix.
+              </p>
+            </article>
+
+            <article class="case-card reveal reveal-delay-2">
+              <!-- Case thumbnail placeholder -->
+              <!-- Suggestion: Multi-screen setup showing interconnected dashboards for FMCG KPIs. 400x250px, techy and integrated. -->
+              <img src="images/integrated kpi.jpg" alt="Integrated shopper KPI dashboards" class="case-thumbnail" />
+              <div class="case-tag">Cross-category · Dashboards</div>
+              <h3 class="case-title">
+                One source of truth for shopper KPIs
+              </h3>
+              <p class="case-meta">
+                Executive and brand-team dashboards for a multi-category FMCG portfolio.
+              </p>
+              <ul class="case-list">
+                <li>
+                  Built Power BI dashboards for ND/WD, SPPD, promo uplift, and VMS%.
+                </li>
+                <li>
+                  Integrated retailer POS, internal sales, and promo calendars.
+                </li>
+                <li>
+                  Trained brand and sales teams on how to use the dashboards.
+                </li>
+              </ul>
+              <p class="case-highlight">
+                Outcome: faster decisions, fewer offline spreadsheets, and a
+                shared view of performance from management to field.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           ABOUT SECTION
+           - Update story, skills, team image & values
+           ========================= -->
+      <section id="about" class="reveal">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">About LumiCore</div>
+              <h2 class="section-title">A data partner for Brands, Retailers & Distributors</h2>
+            </div>
+            <p class="section-subtitle">
+              We speak both languages—analytics and brand. That’s how we
+              bridge the gap between Excel sheets and in-store execution for
+              Manufacturers, Distributors, and Retailers.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <!-- About text + skills -->
+            <div class="about-text reveal reveal-delay-1">
+              <p>
+                LumiCore was founded in Lebanon by analysts and marketers who
+                were tired of seeing strong Brands, Retailers and Distributors lose at the
+                shelf because decisions weren’t grounded in data.
+              </p>
+              <p style="margin-top: 0.7rem;">
+                We’ve worked with manufacturers, distributors, and retailers
+                across categories—from frozen poultry and fries to biscuits,
+                dairy, and beverages—helping them understand what really drives
+                performance in each channel and store.
+              </p>
+              <ul class="about-list">
+                <li>Fluent in SQL, Python, Excel, DAX, and BI tools.</li>
+                <li>Hands-on experience with POS, ERP, and promo data.</li>
+                <li>Comfortable in the boardroom and in the field with merchandisers.</li>
+              </ul>
+            </div>
+
+            <!-- About side: team image + "how we work" card -->
+            <aside class="reveal reveal-delay-2">
+              <!-- Team / office image: replace with your own (images/team-lumicore.jpg) -->
+              <!-- Suggestion: Candid photo of your team (3-5 people) brainstorming around a whiteboard with retail charts, in a Beirut office. 600x400px, inclusive and energetic. -->
+              <figure class="about-image-wrapper">
+                <img
+                  src="images/team.png"
+                  alt="LumiCore analytics and marketing team collaborating"
+                  class="about-image"
+                />
+              </figure>
+
+              <div class="about-card">
+                <div class="about-card-title">How LumiCore likes to work</div>
+                <p>
+                  We plug into your team where it helps most—supporting brand,
+                  trade marketing, category, revenue management, or data teams.
+                </p>
+                <p style="margin-top: 0.5rem;">
+                  Some clients want a one-off deep-dive on a category. Others
+                  want a long-term analytics partner. In both cases, we focus on:
+                </p>
+                <ul class="about-list" style="margin-top: 0.4rem;">
+                  <li>Clarity over complexity.</li>
+                  <li>Transparent methods and repeatable KPIs.</li>
+                  <li>Actions that are realistic in the real world of retail.</li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           RESOURCES / INSIGHTS SECTION
+           - Turn these into blogs, LinkedIn posts, PDFs later
+           ========================= -->
+      <section id="resources" class="reveal">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Insights</div>
+              <h2 class="section-title">Ideas for shopper-driven growth</h2>
+            </div>
+            <p class="section-subtitle">
+              Short, practical pieces your brand, trade, and field teams can use.
+            </p>
+          </div>
+
+          <div class="resources-grid">
+            <article class="resource-card reveal reveal-delay-1">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Illustrative graphic of KPI icons (ND, SPPD) connected in a flowchart. 400x250px, infographic style. -->
+              <!--<img src="images/resource-kpis.jpg" alt="Infographic of key shopper KPIs" class="resource-thumbnail" /> -->
+              <div class="resource-tag">Playbook</div>
+              <h3 class="resource-title">
+                5 KPIs every shopper marketer in FMCG should track
+              </h3>
+              <p>
+                ND, WD, SPPD, VMS%, and promo ROI—what they mean, how to
+                calculate them, and how to use them in retailer conversations.
+              </p>
+              <!-- <div class="resource-link">
+                Draft as blog post
+                <span>↗</span>
+              </div> -->
+            </article>
+
+            <article class="resource-card reveal reveal-delay-2">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Before/after freezer promo photo, highlighting profitability metrics. 400x250px. -->
+              <!--<img src="images/resource-promo-profit.jpg" alt="Frozen promo profitability analysis" class="resource-thumbnail" /> -->
+              <div class="resource-tag">Guide</div>
+              <h3 class="resource-title">
+                Is this promotion actually profitable?
+              </h3>
+              <p>
+                A simple framework for assessing uplift, forward-buy, and
+                cannibalisation before you repeat a campaign.
+              </p>
+              <!--<div class="resource-link">
+                Draft as whitepaper
+                <span>↗</span>
+              </div> -->
+            </article>
+
+            <article class="resource-card reveal reveal-delay-3">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Storyboard image of data-to-narrative flow, with icons for sales reports to shelf wins. 400x250px. -->
+              <!-- <img src="images/resource-category-story.jpg" alt="Data to category story transformation" class="resource-thumbnail" /> -->
+              <div class="resource-tag">Toolkit</div>
+              <h3 class="resource-title">
+                From sales reports to a category story
+              </h3>
+              <p>
+                Turn raw retailer data into a category narrative that wins
+                shelf, feature space, and support in modern trade.
+              </p>
+              <!-- <div class="resource-link">
+                Draft as slide deck
+                <span>↗</span>
+              </div> -->
+            </article>
+
+            <article class="resource-card reveal reveal-delay-1">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Bar chart graphic prioritizing SKUs in chilled section. 400x250px, data viz focus. -->
+              <!-- <img src="images/resource-sppd-prioritize.jpg" alt="SPPD-based SKU prioritization chart" class="resource-thumbnail" /> -->
+              <div class="resource-tag">How-to</div>
+              <h3 class="resource-title">
+                Using SPPD to prioritise SKUs
+              </h3>
+              <p>
+                Why SPPD is more useful than just value share when you’re
+                planning assortment or space changes categories.
+              </p>
+              <!-- <div class="resource-link">
+                Draft as internal note
+                <span>↗</span>
+              </div> -->
+            </article>
+
+            <article class="resource-card reveal reveal-delay-2">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Checklist photo with merchandiser in-store, phone taking freezer photo. 400x250px, practical. -->
+              <!-- <img src="images/resource-promo-checklist.jpg" alt="In-store promo execution checklist" class="resource-thumbnail" /> -->
+              <div class="resource-tag">Field</div>
+              <h3 class="resource-title">
+                A checklist for promo execution in-store
+              </h3>
+              <p>
+                Simple, practical points for merchandisers to capture
+                execution quality in photos and numbers—especially at freezers.
+              </p>
+              <!-- <div class="resource-link">
+                Draft as field guide
+                <span>↗</span>
+              </div> -->
+            </article>
+
+            <article class="resource-card reveal reveal-delay-3">
+              <!-- Resource thumbnail placeholder -->
+              <!-- Suggestion: Group meeting in a Lebanese office, discussing data culture. 400x250px, motivational. -->
+              <!-- <img src="images/resource-data-culture.jpg" alt="Team building data-driven culture" class="resource-thumbnail" />  -->
+              <div class="resource-tag">Leadership</div>
+              <h3 class="resource-title">
+                Building a data-driven shopper culture
+              </h3>
+              <p>
+                How to make shopper KPIs part of monthly routines for brand,
+                trade, and sales teams in a fast-changing retail market.
+              </p>
+              <!-- <div class="resource-link">
+                Draft as leadership memo
+                <span>↗</span>
+              </div> -->
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           CONTACT SECTION
+           - Update email, add map/city image, connect form to a service later
+           ========================= -->
+      <section id="contact" class="reveal">
+        <div class="container">
+          <div class="section-header">
+            <div>
+              <div class="section-kicker">Contact</div>
+              <h2 class="section-title">Let’s turn your shopper data into action</h2>
+            </div>
+            <p class="section-subtitle">
+              Share a bit about your categories, channels, and current
+              challenges, and LumiCore will come back with how we’d approach it.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <!-- Contact text + Beirut image -->
+            <div class="reveal reveal-delay-1">
+              <!-- Beirut / Lebanon image: replace with your own (images/beirut-skyline.jpg) -->
+              <!-- Suggestion: Dynamic skyline of Beirut at dusk, with subtle overlay of data nodes connecting buildings (symbolizing local insights). 600x400px. -->
+              <figure class="contact-image-wrapper">
+                <img
+                  src="images/beirut-skyline.jpg"
+                  alt="Beirut skyline representing LumiCore's home market in Lebanon"
+                  class="contact-image"
+                />
+              </figure>
+
+              <p class="contact-text">
+                Whether you’re a frozen foods specialist, a wider FMCG brand,
+                a retailer, or a distributor, we can start with a focused
+                question—like “Which of our promos really pay back?” or
+                “How should we change our shelf space mix?”
+              </p>
+              <div class="contact-badges">
+                <div class="contact-badge">Promo ROI deep-dives</div>
+                <div class="contact-badge">Freezer & space audits</div>
+                <div class="contact-badge">Dashboard builds & clean-ups</div>
+              </div>
+              <p class="contact-text">
+                Prefer email? Reach LumiCore at:
+                <strong>hello@lumicore-analytics.com</strong> <!-- TODO: replace with your real address -->
+              </p>
+            </div>
+
+            <!-- Contact form (static - connect to Formspree / Netlify Forms later) -->
+            <form class="reveal reveal-delay-2">
+              <div class="form-row">
+                <label for="name">Name</label>
+                <input id="name" type="text" placeholder="Your full name" />
+              </div>
+              <div class="form-row">
+                <label for="company">Company</label>
+                <input id="company" type="text" placeholder="Brand / Retailer / Distributor" />
+              </div>
+              <div class="form-row">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="you@company.com" />
+              </div>
+              <div class="form-row">
+                <label for="message">What can LumiCore help with?</label>
+                <textarea id="message" placeholder="Tell us about your categories, channels, and current shopper or promo challenges."></textarea>
+              </div>
+              <button type="submit" class="submit-btn">
+                Send message
+                <span>↗</span>
+              </button>
+              
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =========================
+         FOOTER
+         - Update legal text & links if needed
+         ========================= -->
+    <footer>
+      <div class="container footer-content">
+        <div>© <span id="year"></span> LumiCore. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="#top">Back to top</a>
+          <a href="#services">Services</a>
+          <a href="#cases">Case studies</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =========================
+       JAVASCRIPT
+       - Handles year, mobile nav, scroll animations, and safe CTA scrolling
+       ========================= -->
+  <script>
+    // Set current year in footer automatically
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile nav toggle (open/close)
+    const navToggle = document.getElementById("navToggle");
+    const navMobile = document.getElementById("navMobile");
+
+    if (navToggle && navMobile) {
+      navToggle.addEventListener("click", () => {
+        const isVisible = navMobile.style.display === "flex";
+        navMobile.style.display = isVisible ? "none" : "flex";
+      });
+
+      // Hide mobile nav when a link is clicked
+      navMobile.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMobile.style.display = "none";
+        });
+      });
+    }
+
+    // Smooth scroll for main CTAs (hero buttons)
+    const ctaStrategy = document.getElementById("ctaStrategy");
+    const ctaCases = document.getElementById("ctaCases");
+
+    if (ctaStrategy) {
+      ctaStrategy.addEventListener("click", () => {
+        const contactSection = document.getElementById("contact");
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+    if (ctaCases) {
+      ctaCases.addEventListener("click", () => {
+        const casesSection = document.getElementById("cases");
+        if (casesSection) {
+          casesSection.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    }
+
+    // Simple intersection-based scroll reveal
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
