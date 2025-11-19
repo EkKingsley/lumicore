@@ -48,7 +48,7 @@ def render_html_file():
     # Display with proper height and scrolling - FULL WIDTH
     st.components.v1.html(
         html_content,
-        height=4000,
+        height=5000,
         scrolling=True,
         width=None  # This makes it full width
     )
@@ -129,3 +129,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
